@@ -15,9 +15,6 @@ def user_list(request, format=None):
         #Jsonで返してくる
         return Response(serializer.data)
 
-
-
-
     elif request.method == 'POST':
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -30,15 +27,14 @@ def user_list(request, format=None):
 @api_view(['GET', 'DELETE'])
 def user_detail(request, pk, format=None):
     try:
-        polls = User.objects.get(pk=pk)
+        get_data = User.objects.get(pk=pk)
     except Snippet.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = UserSerializer(polls)
+        serializer = UserSerializer(get_data)
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
-        snippet.delete()
-        ## HttpResponseをResponseに変更
+        get_data.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
